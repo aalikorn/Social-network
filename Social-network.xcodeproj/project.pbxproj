@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC5D895D2D77242700B28D16 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BC5D895C2D77242700B28D16 /* Alamofire */; };
-		BC5D895F2D77242700B28D16 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = BC5D895E2D77242700B28D16 /* AlamofireDynamic */; };
+		BC69155A2D772B4100F08128 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BC6915592D772B4100F08128 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,8 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC5D895D2D77242700B28D16 /* Alamofire in Frameworks */,
-				BC5D895F2D77242700B28D16 /* AlamofireDynamic in Frameworks */,
+				BC69155A2D772B4100F08128 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,8 +130,7 @@
 			);
 			name = "Social-network";
 			packageProductDependencies = (
-				BC5D895C2D77242700B28D16 /* Alamofire */,
-				BC5D895E2D77242700B28D16 /* AlamofireDynamic */,
+				BC6915592D772B4100F08128 /* Alamofire */,
 			);
 			productName = "Social-network";
 			productReference = BCF87DF92D76FD5C002FFD1D /* Social-network.app */;
@@ -218,7 +215,7 @@
 			mainGroup = BCF87DF02D76FD5C002FFD1D;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				BC5D895B2D77242700B28D16 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				BC6915582D772B4100F08128 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BCF87DFA2D76FD5C002FFD1D /* Products */;
@@ -581,7 +578,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BC5D895B2D77242700B28D16 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		BC6915582D772B4100F08128 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -592,15 +589,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BC5D895C2D77242700B28D16 /* Alamofire */ = {
+		BC6915592D772B4100F08128 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BC5D895B2D77242700B28D16 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = BC6915582D772B4100F08128 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		BC5D895E2D77242700B28D16 /* AlamofireDynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BC5D895B2D77242700B28D16 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = AlamofireDynamic;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
