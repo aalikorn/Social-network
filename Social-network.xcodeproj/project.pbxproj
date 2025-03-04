@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BC5D895D2D77242700B28D16 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BC5D895C2D77242700B28D16 /* Alamofire */; };
+		BC5D895F2D77242700B28D16 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = BC5D895E2D77242700B28D16 /* AlamofireDynamic */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		BCF87E132D76FD5D002FFD1D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC5D895D2D77242700B28D16 /* Alamofire in Frameworks */,
+				BC5D895F2D77242700B28D16 /* AlamofireDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +132,8 @@
 			);
 			name = "Social-network";
 			packageProductDependencies = (
+				BC5D895C2D77242700B28D16 /* Alamofire */,
+				BC5D895E2D77242700B28D16 /* AlamofireDynamic */,
 			);
 			productName = "Social-network";
 			productReference = BCF87DF92D76FD5C002FFD1D /* Social-network.app */;
@@ -208,6 +217,9 @@
 			);
 			mainGroup = BCF87DF02D76FD5C002FFD1D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BC5D895B2D77242700B28D16 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BCF87DFA2D76FD5C002FFD1D /* Products */;
 			projectDirPath = "";
@@ -294,7 +306,6 @@
 				INFOPLIST_FILE = "Social-network/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -322,7 +333,6 @@
 				INFOPLIST_FILE = "Social-network/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -569,6 +579,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BC5D895B2D77242700B28D16 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BC5D895C2D77242700B28D16 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC5D895B2D77242700B28D16 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		BC5D895E2D77242700B28D16 /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC5D895B2D77242700B28D16 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BCF87DF12D76FD5C002FFD1D /* Project object */;
 }
