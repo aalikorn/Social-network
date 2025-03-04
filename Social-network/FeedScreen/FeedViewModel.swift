@@ -6,28 +6,35 @@
 //
 
 import Foundation
+import UIKit
 
 protocol FeedViewModelProtocol {
     var posts: [Post] { get }
+    var images: [Data] { get }
     var error: Error? { get }
     var isLoading: Bool { get }
     
     var view: FeedViewProtocol? { get }
     
     func loadPosts()
+    func loadRandomPhoto(for index: Int, closure: (() -> Void)?)
     func refreshPosts()
     func toggleLike(for postId: Int)
     func handleError()
+    func getImage(for index: Int) -> UIImage
 }
 
 class FeedViewModel: FeedViewModelProtocol {
+    
     var view: FeedViewProtocol?
     
     private var _posts: [Post] = []
+    private var _images: [Data] = []
     private var _error: Error?
     private var _isLoading: Bool = false
     
     var posts: [Post] { _posts }
+    var images: [Data] { _images }
     var error: Error? { _error }
     var isLoading: Bool { _isLoading }
     
@@ -37,10 +44,36 @@ class FeedViewModel: FeedViewModelProtocol {
             switch result {
             case .success(let posts):
                 self?._posts = posts
+                self?.view?.reloadPosts()
             case .failure(let error):
                 self?._error = error
             }
         }
+    }
+    
+    func loadRandomPhoto(for index: Int, closure: (() -> Void)? = nil) {
+        let urlString = "https://picsum.photos/200"
+        NetworkService.shared.fetchImage(url: urlString) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?._posts[index].image = data
+                closure?()
+            case .failure(let error):
+                print("error while loading image: \(error)")
+            }
+        }
+    }
+    
+    func getImage(for index: Int) -> UIImage {
+        if let data = posts[index].image {
+            if let image = UIImage(data: data) {
+                return image
+            }
+        }
+        loadRandomPhoto(for: index) {
+            self.view?.reloadPost(at: index)
+        }
+        return UIImage(named: "placeholder")!
     }
     
     func refreshPosts() {

@@ -12,6 +12,7 @@ protocol FeedViewProtocol {
     func reloadPosts()
     func showError(message: String)
     func toggleLike(for postId: Int)
+    func reloadPost(at index: Int)
 }
 
 class FeedView: UIViewController, FeedViewProtocol {
@@ -23,11 +24,20 @@ class FeedView: UIViewController, FeedViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupTableView()
+        viewModel?.loadPosts()
     }
     
-    
     func reloadPosts() {
-        
+        DispatchQueue.main.async {
+            self.postsTableView.reloadData()
+        }
+    }
+    
+    func reloadPost(at index: Int) {
+        DispatchQueue.main.async {
+            self.postsTableView.reloadRows(at: [IndexPath(row: 0, section: index)], with: .none)
+        }
     }
     
     func showError(message: String) {
@@ -40,37 +50,11 @@ class FeedView: UIViewController, FeedViewProtocol {
         
     }
     
-    func setupUI() {
-        view.backgroundColor = .white
-        
-        errorView = ErrorView()
-        errorView.isHidden = true
-        view.addSubview(errorView)
-        
-        postsTableView = UITableView()
-//        postsTableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.reuseIdentifier)
-        view.addSubview(postsTableView)
-        
-        setupConstraints()
+    func setupTableView() {
+        postsTableView.register(PostsTableViewCell.self, forCellReuseIdentifier: "postsCell")
+        postsTableView.dataSource = self
+        postsTableView.delegate = self
+        postsTableView.allowsSelection = false
     }
-    
-    func setupConstraints() {
-        errorView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            errorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            errorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        postsTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            postsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            postsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            postsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            postsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-
 }
 

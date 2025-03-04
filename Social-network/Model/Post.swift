@@ -5,8 +5,11 @@
 //  Created by Даша Николаева on 04.03.2025.
 //
 
+import Foundation
+
 struct Post: Decodable {
     let title: String
     let body: String
-    let liked: Bool
+    var image: Data?
+    var liked: Bool? = false
 }
