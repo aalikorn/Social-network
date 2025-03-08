@@ -14,7 +14,11 @@ class PostsTableViewCell: UITableViewCell {
     private var bodyLabel: UILabel!
     private var likeButton: UIButton!
     
-    func configure(image: UIImage, title: String, body: String) {
+    var onLikeButtonTap: ((UITableViewCell) -> Void)?
+    
+    let likeButtonConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular, scale: .default)
+    
+    func configure(image: UIImage, title: String, body: String, isLiked: Bool) {
         avatarImage = UIImageView()
         avatarImage.image = image
         avatarImage.contentMode = .scaleAspectFit
@@ -35,10 +39,22 @@ class PostsTableViewCell: UITableViewCell {
         contentView.addSubview(bodyLabel)
         
         likeButton = UIButton()
-        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        updateLikeButton(isLiked)
+        likeButton.tintColor = .red
+        likeButton.layer.borderColor = UIColor.red.cgColor
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         contentView.addSubview(likeButton)
         
         setupConstraints()
+    }
+    
+    func updateLikeButton(_ isLiked: Bool) {
+        let imageName = isLiked ? "heart.fill" : "heart"
+        likeButton.setImage(UIImage(systemName: imageName, withConfiguration: likeButtonConfig), for: .normal)
+    }
+    
+    @objc func likeButtonTapped() {
+        onLikeButtonTap?(self)
     }
     
     private func setupConstraints() {
@@ -79,5 +95,6 @@ class PostsTableViewCell: UITableViewCell {
         avatarImage.image = nil
         titleLabel.text = nil
         bodyLabel.text = nil
+        updateLikeButton(false)
     }
 }

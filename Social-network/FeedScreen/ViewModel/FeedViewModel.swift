@@ -82,7 +82,11 @@ class FeedViewModel: FeedViewModelProtocol {
     }
     
     func toggleLike(for postId: Int) {
-        
+        guard _posts[postId].liked != nil else {
+            _posts[postId].liked = true
+            return
+        }
+        _posts[postId].liked?.toggle()
     }
     
     func handleError() {

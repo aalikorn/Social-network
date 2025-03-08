@@ -15,7 +15,8 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "postsCell", for: indexPath) as! PostsTableViewCell
         let post = viewModel!.posts[indexPath.section]
-        cell.configure(image: viewModel!.getImage(for: indexPath.section), title: post.title, body: post .body)
+        cell.configure(image: viewModel!.getImage(for: indexPath.section), title: post.title, body: post.body, isLiked: post.liked ?? false)
+        cell.onLikeButtonTap = toggleLike(cell:)
         return cell
     }
     
