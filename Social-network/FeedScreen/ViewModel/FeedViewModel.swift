@@ -38,9 +38,10 @@ class FeedViewModel: FeedViewModelProtocol {
     var error: Error? { _error }
     var isLoading: Bool { _isLoading }
     
+    let repository = FeedRepository()
+    
     func loadPosts() {
-        let urlString = "https://jsonplaceholder.typicode.com/posts"
-        NetworkService.shared.fetchData(url: urlString) { [weak self] (result: Result<[Post], Error>) in
+        repository.loadPosts { [weak self] result in
             switch result {
             case .success(let posts):
                 self?._posts = posts
