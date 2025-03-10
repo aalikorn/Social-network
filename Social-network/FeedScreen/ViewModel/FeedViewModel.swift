@@ -22,6 +22,7 @@ protocol FeedViewModelProtocol {
     func toggleLike(for postId: Int)
     func handleError()
     func getImage(for index: Int) -> UIImage
+    func loadNextPage()
 }
 
 class FeedViewModel: FeedViewModelProtocol {
@@ -29,6 +30,7 @@ class FeedViewModel: FeedViewModelProtocol {
     var view: FeedViewProtocol?
     
     private var _posts: [Post] = []
+    private var allPosts: [Post] = []
     private var _images: [Data] = []
     private var _error: Error?
     private var _isLoading: Bool = false
@@ -40,16 +42,36 @@ class FeedViewModel: FeedViewModelProtocol {
     
     let repository = FeedRepository()
     
+    var currentPage = 1
+    var pageSize = 20
+    
     func loadPosts() {
         repository.loadPosts { [weak self] result in
             switch result {
             case .success(let posts):
-                self?._posts = posts
+                self?.allPosts = posts
+                self?.loadNextPage()
                 self?.view?.reloadPosts()
             case .failure(let error):
                 self?._error = error
             }
         }
+    }
+    
+    func loadNextPage() {
+        guard (currentPage - 1) * pageSize < allPosts.count else { return }
+        _isLoading = true
+        loadNextPagePosts(page: currentPage, pageSize: pageSize) { newPosts in
+            self._isLoading = false
+            self._posts.append(contentsOf: newPosts)
+            self.currentPage += 1
+            self.view?.reloadPosts()
+        }
+    }
+    
+    func loadNextPagePosts(page: Int, pageSize: Int, completion: @escaping ([Post]) -> Void) {
+        let newPosts = Array(allPosts[(page - 1)*pageSize..<page*pageSize])
+        completion(newPosts)
     }
     
     func loadRandomPhoto(for index: Int, closure: (() -> Void)? = nil) {
@@ -97,6 +119,7 @@ class FeedViewModel: FeedViewModelProtocol {
     func start() -> FeedViewProtocol {
         self.view = FeedView()
         self.view?.viewModel = self
+        self.loadPosts()
         return self.view!
     }
     

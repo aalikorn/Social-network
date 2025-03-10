@@ -23,4 +23,10 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel?.posts.count ?? 0
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height )){
+            viewModel?.loadNextPage()
+        }
+    }
 }

@@ -25,7 +25,7 @@ class FeedView: UIViewController, FeedViewProtocol {
         super.viewDidLoad()
         setupUI()
         setupTableView()
-        viewModel?.loadPosts()
+        configureRefreshControl()
     }
     
     func reloadPosts() {
@@ -60,6 +60,18 @@ class FeedView: UIViewController, FeedViewProtocol {
         postsTableView.dataSource = self
         postsTableView.delegate = self
         postsTableView.allowsSelection = false
+    }
+    
+    func configureRefreshControl() {
+        postsTableView.refreshControl = UIRefreshControl()
+        postsTableView.refreshControl?.addTarget(self, action: #selector(refreshControlAction), for: .valueChanged)
+    }
+    
+    @objc func refreshControlAction() {
+        reloadPosts()
+        DispatchQueue.main.async {
+            self.postsTableView.refreshControl?.endRefreshing()
+       }
     }
 }
 

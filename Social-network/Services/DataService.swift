@@ -74,11 +74,11 @@ class DataService: DataServiceProtocol {
     
     func convert(postEntity: PostEntity) throws -> Post {
         var post: Post
-        if let title = postEntity.title, let body = postEntity.body, let image = postEntity.image {
+        if let title = postEntity.title, let body = postEntity.body {
             post = Post(id: Int(postEntity.id),
                         title: title,
                         body: body,
-                        image: image,
+                        image: postEntity.image,
                         liked: postEntity.liked)
             return post
         }
