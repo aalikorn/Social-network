@@ -40,6 +40,12 @@
 - **Picsum API** — Для загрузки случайных изображений.
 
 ## Скриншоты
+Отображение постов в ленте и отображение ошибки:
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/a5209250-9f52-47c6-98bb-1503f468b9de" width="200" />
+    <img src="https://github.com/user-attachments/assets/21a00e88-ec11-4daa-a307-917e4ae1f532" width="200" />
+</p>
+
 
 
 ## Инструкция по сборке
