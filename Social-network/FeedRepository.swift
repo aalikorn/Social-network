@@ -5,7 +5,16 @@
 //  Created by Даша Николаева on 08.03.2025.
 //
 
-class FeedRepository {
+import Foundation
+
+protocol FeedRepositoryProtocol {
+    func loadPosts(completion: @escaping (Result<[Post], Error>) -> Void)
+    func loadRandomPhoto(complition: ((Result<Data, Error>) -> Void)?)
+    func addToDB(_ posts: [Post])
+    func loadPostsFromDB(completion: @escaping (Result<[Post], Error>) -> Void)
+}
+
+class FeedRepository: FeedRepositoryProtocol {
     let networkReachability = NetworkReachabilityService()
     let dataService = DataService()
     
@@ -28,6 +37,19 @@ class FeedRepository {
                 completion(.success(posts))
             case .failure(let error):
                 completion(.failure(error))
+            }
+        }
+    }
+    
+    func loadRandomPhoto(complition: ((Result<Data, Error>) -> Void)? = nil) {
+        let urlString = "https://picsum.photos/200"
+        NetworkService.shared.fetchImage(url: urlString) { result in
+            switch result {
+            case .success(let data):
+                complition?(.success(data))
+            case .failure(let error):
+                complition?(.failure(error))
+                print("error while loading image: \(error)")
             }
         }
     }

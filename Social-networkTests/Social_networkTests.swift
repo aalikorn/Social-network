@@ -9,28 +9,47 @@ import XCTest
 @testable import Social_network
 
 final class Social_networkTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    var viewModel: FeedViewModel!
+    var mockRepo: MockFeedRepository!
+    
+    override func setUp() {
+        super.setUp()
+        viewModel = FeedViewModel()
+        mockRepo = MockFeedRepository()
+        viewModel.start(repository: mockRepo)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testToggleLike() throws {
+        let post = Post(id: 1, title: "title", body: "body", liked: false)
+        viewModel.posts = [post]
+        viewModel.toggleLike(for: 0)
+        XCTAssertTrue(viewModel.posts[0].liked ?? false)
+        viewModel.toggleLike(for: 0)
+        XCTAssertFalse(viewModel.posts[0].liked ?? true)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testGetImage() throws {
+        let post = Post(id: 1, title: "title", body: "body", liked: false)
+        viewModel.posts = [post]
+        let image = viewModel.getImage(for: 0)
+        XCTAssertNotNil(image)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    class MockFeedRepository: FeedRepositoryProtocol {
+        func loadPosts(completion: @escaping (Result<[Social_network.Post], any Error>) -> Void) {
         }
+        
+        func loadRandomPhoto(complition: ((Result<Data, any Error>) -> Void)?) {
+            complition?(.success(Data()))
+        }
+        
+        func addToDB(_ posts: [Social_network.Post]) {
+        }
+        
+        func loadPostsFromDB(completion: @escaping (Result<[Social_network.Post], any Error>) -> Void) {
+        }
+        
     }
 
 }

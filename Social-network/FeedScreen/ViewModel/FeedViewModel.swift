@@ -9,12 +9,13 @@ import Foundation
 import UIKit
 
 protocol FeedViewModelProtocol {
-    var posts: [Post] { get }
+    var posts: [Post] { get set }
     var images: [Data] { get }
     var error: Error? { get }
     var isLoading: Bool { get }
     
     var view: FeedViewProtocol? { get }
+    var repository: FeedRepositoryProtocol? { get }
     
     func loadPosts()
     func loadRandomPhoto(for index: Int, closure: (() -> Void)?)
@@ -35,18 +36,21 @@ class FeedViewModel: FeedViewModelProtocol {
     private var _error: Error?
     private var _isLoading: Bool = false
     
-    var posts: [Post] { _posts }
+    var posts: [Post] {
+        get { _posts }
+        set {_posts = newValue}
+    }
     var images: [Data] { _images }
     var error: Error? { _error }
     var isLoading: Bool { _isLoading }
     
-    let repository = FeedRepository()
+    var repository: FeedRepositoryProtocol?
     
     var currentPage = 1
     var pageSize = 20
     
     func loadPosts() {
-        repository.loadPosts { [weak self] result in
+        repository?.loadPosts { [weak self] result in
             switch result {
             case .success(let posts):
                 self?.allPosts = posts
@@ -54,6 +58,7 @@ class FeedViewModel: FeedViewModelProtocol {
                 self?.view?.reloadPosts()
             case .failure(let error):
                 self?._error = error
+                self?.handleError()
             }
         }
     }
@@ -75,14 +80,13 @@ class FeedViewModel: FeedViewModelProtocol {
     }
     
     func loadRandomPhoto(for index: Int, closure: (() -> Void)? = nil) {
-        let urlString = "https://picsum.photos/200"
-        NetworkService.shared.fetchImage(url: urlString) { [weak self] result in
+        repository?.loadRandomPhoto() {  [weak self] result in
             switch result {
             case .success(let data):
                 self?._posts[index].image = data
                 closure?()
-            case .failure(let error):
-                print("error while loading image: \(error)")
+            default:
+                break
             }
         }
     }
@@ -116,11 +120,15 @@ class FeedViewModel: FeedViewModelProtocol {
         view?.showError(message: "При загрузке произошла ошибка :( ")
     }
     
-    func start() -> FeedViewProtocol {
-        self.view = FeedView()
+    func removeError() {
+        view?.hideError()
+    }
+    
+    func start(view: FeedViewProtocol? = nil, repository: FeedRepositoryProtocol? = nil) {
+        self.view = view
+        self.repository = repository
         self.view?.viewModel = self
         self.loadPosts()
-        return self.view!
     }
     
 }

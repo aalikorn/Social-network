@@ -16,10 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         let viewModel = FeedViewModel()
-        let initialVC = viewModel.start() as! UIViewController
+        let view = FeedView()
+        let repository = FeedRepository()
+        viewModel.start(view: view, repository: repository)
         
         let window = UIWindow(windowScene: scene)
-        window.rootViewController = initialVC
+        window.rootViewController = view
         self.window = window
         window.makeKeyAndVisible()
     }

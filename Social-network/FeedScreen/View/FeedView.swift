@@ -11,6 +11,7 @@ protocol FeedViewProtocol {
     var viewModel: FeedViewModelProtocol? { get set }
     func reloadPosts()
     func showError(message: String)
+    func hideError()
     func toggleLike(cell: UITableViewCell)
     func reloadPost(at index: Int)
 }
@@ -44,6 +45,11 @@ class FeedView: UIViewController, FeedViewProtocol {
         postsTableView.isHidden = true
         errorView.setErrorText(message)
         errorView.isHidden = false
+    }
+    
+    func hideError() {
+        errorView.isHidden = true
+        postsTableView.isHidden = false
     }
     
     func toggleLike(cell: UITableViewCell) {
