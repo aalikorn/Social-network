@@ -25,10 +25,10 @@ class ErrorView: UIView {
             errorLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             errorLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 32),
             errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -32),
-
         ])
     }
     
+    // method to update the text of the error label
     public func setErrorText(_ text: String) {
         errorLabel.text = text
     }

@@ -17,12 +17,15 @@ protocol FeedViewModelProtocol {
     var view: FeedViewProtocol? { get }
     var repository: FeedRepositoryProtocol? { get }
     
+    // Loads all posts from the repository
     func loadPosts()
+    // Loads a random photo for a specific post
     func loadRandomPhoto(for index: Int, closure: (() -> Void)?)
     func refreshPosts()
     func toggleLike(for postId: Int)
     func handleError()
     func getImage(for index: Int) -> UIImage
+    // Loads the next page of posts (pagination)
     func loadNextPage()
 }
 
@@ -53,7 +56,7 @@ class FeedViewModel: FeedViewModelProtocol {
         repository?.loadPosts { [weak self] result in
             switch result {
             case .success(let posts):
-                self?.allPosts = posts
+                self?.allPosts = posts // Store all fetched posts for pagination
                 self?.loadNextPage()
                 self?.view?.reloadPosts()
             case .failure(let error):
@@ -63,6 +66,7 @@ class FeedViewModel: FeedViewModelProtocol {
         }
     }
     
+    // Loads the next page of posts based on pagination logic
     func loadNextPage() {
         guard (currentPage - 1) * pageSize < allPosts.count else { return }
         _isLoading = true
@@ -74,11 +78,13 @@ class FeedViewModel: FeedViewModelProtocol {
         }
     }
     
+    // Helper method to simulate loading posts for the next page
     func loadNextPagePosts(page: Int, pageSize: Int, completion: @escaping ([Post]) -> Void) {
         let newPosts = Array(allPosts[(page - 1)*pageSize..<page*pageSize])
         completion(newPosts)
     }
     
+    // Loads a random photo for a specific post by its index
     func loadRandomPhoto(for index: Int, closure: (() -> Void)? = nil) {
         repository?.loadRandomPhoto() {  [weak self] result in
             switch result {
@@ -91,6 +97,7 @@ class FeedViewModel: FeedViewModelProtocol {
         }
     }
     
+    // Fetches the image for a specific post (if the image is not cached, it loads a random photo)
     func getImage(for index: Int) -> UIImage {
         if let data = posts[index].image {
             if let image = UIImage(data: data) {
@@ -124,6 +131,7 @@ class FeedViewModel: FeedViewModelProtocol {
         view?.hideError()
     }
     
+    // sets the view and repository, and starts loading posts
     func start(view: FeedViewProtocol? = nil, repository: FeedRepositoryProtocol? = nil) {
         self.view = view
         self.repository = repository

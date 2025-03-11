@@ -14,10 +14,10 @@ class PostsTableViewCell: UITableViewCell {
     private var bodyLabel: UILabel!
     private var likeButton: UIButton!
     
+    // Closure to handle the like button tap action
     var onLikeButtonTap: ((UITableViewCell) -> Void)?
     
-    let likeButtonConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular, scale: .default)
-    
+    // Configures the cell with the provided data (image, title, body, like status)
     func configure(image: UIImage, title: String, body: String, isLiked: Bool) {
         avatarImage = UIImageView()
         avatarImage.image = image
@@ -48,9 +48,10 @@ class PostsTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
+    // Updates the like button image based on whether the post is liked or not
     func updateLikeButton(_ isLiked: Bool) {
         let imageName = isLiked ? "heart.fill" : "heart"
-        likeButton.setImage(UIImage(systemName: imageName, withConfiguration: likeButtonConfig), for: .normal)
+        likeButton.setImage(UIImage(systemName: imageName, withConfiguration: configs.likeButtonConfig), for: .normal)
     }
     
     @objc func likeButtonTapped() {

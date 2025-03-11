@@ -9,7 +9,9 @@ import Alamofire
 import Foundation
 
 protocol NetworkServiceProtocol {
+    // Method to fetch data and decode it into a specified model type
     func fetchData<T: Decodable>(url: String, completion: @escaping (Result<T, Error>) -> ())
+    // Method to fetch image data from a URL
     func fetchImage(url: String, completion: @escaping (Result<Data, Error>) -> ())
 }
 

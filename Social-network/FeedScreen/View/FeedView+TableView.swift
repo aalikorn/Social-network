@@ -24,6 +24,7 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         return viewModel?.posts.count ?? 0
     }
     
+    // Triggers loading the next page when the bottom is reached
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height )){
             viewModel?.loadNextPage()

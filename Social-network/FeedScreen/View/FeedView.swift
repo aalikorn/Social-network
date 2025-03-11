@@ -9,11 +9,15 @@ import UIKit
 
 protocol FeedViewProtocol {
     var viewModel: FeedViewModelProtocol? { get set }
+    
+    // Reload all posts
     func reloadPosts()
+    // Reload a single post at a specific index
+    func reloadPost(at index: Int)
+    // Show error view  with a message
     func showError(message: String)
     func hideError()
     func toggleLike(cell: UITableViewCell)
-    func reloadPost(at index: Int)
 }
 
 class FeedView: UIViewController, FeedViewProtocol {
@@ -73,6 +77,7 @@ class FeedView: UIViewController, FeedViewProtocol {
         postsTableView.refreshControl?.addTarget(self, action: #selector(refreshControlAction), for: .valueChanged)
     }
     
+    // Configure the refresh control for pull-to-refresh
     @objc func refreshControlAction() {
         reloadPosts()
         DispatchQueue.main.async {

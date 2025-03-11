@@ -7,6 +7,7 @@
 
 import UIKit
 
+// Custom error type to handle missing data errors
 enum Errors: Error {
     case missingDataError
 }
@@ -18,9 +19,11 @@ protocol DataServiceProtocol {
 }
 
 class DataService: DataServiceProtocol {
+    // Accessing the managed object context from the AppDelegate for CoreData operations
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var posts: [Post] = []
     
+    // Fetch posts from the database with pagination (offset and limit)
     func fetchPosts(offset: Int, limit: Int, completion: @escaping (Result<[Post], Error>) -> Void) {
         let fetchRequest = PostEntity.fetchRequest()
         fetchRequest.fetchOffset = offset
@@ -36,6 +39,7 @@ class DataService: DataServiceProtocol {
         completion(.success(posts))
     }
     
+    // Check if there are more posts available based on the current offset and limit
     func hasMorePosts(offset: Int, limit: Int) -> Bool {
         let fetchRequest = PostEntity.fetchRequest()
         fetchRequest.fetchOffset = offset
@@ -50,6 +54,7 @@ class DataService: DataServiceProtocol {
         }
     }
     
+    // Check if a specific post exists in DB by its ID
     func hasPost(with id: Int) -> Bool {
         let fetchRequest = PostEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %lld", Int64(id))
@@ -62,6 +67,7 @@ class DataService: DataServiceProtocol {
         }
     }
     
+    // Add a new post to the database
     func addPost(_ post: Post) {
         let _ = convert(post: post)
         do {
@@ -72,6 +78,7 @@ class DataService: DataServiceProtocol {
         
     }
     
+    // Convert a PostEntity (CoreData entity) to a Post model object
     func convert(postEntity: PostEntity) throws -> Post {
         var post: Post
         if let title = postEntity.title, let body = postEntity.body {
@@ -85,6 +92,7 @@ class DataService: DataServiceProtocol {
         throw Errors.missingDataError
     }
     
+    // Convert a Post model object to a PostEntity (CoreData entity) saving to the database
     func convert(post: Post) -> PostEntity {
         var postEntity: PostEntity
         postEntity = PostEntity(context: context)

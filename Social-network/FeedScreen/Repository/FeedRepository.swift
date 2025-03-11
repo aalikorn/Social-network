@@ -18,6 +18,7 @@ class FeedRepository: FeedRepositoryProtocol {
     let networkReachability = NetworkReachabilityService()
     let dataService = DataService()
     
+    // Load posts from network or database depending on the internet connection
     func loadPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
         networkReachability.isInternetAvailable {[weak self] available in
             if available {
